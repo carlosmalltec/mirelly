@@ -1,0 +1,60 @@
+
+  //Cria um objeto. Se nao existir cria se existir add
+//  final category = ParseObject('Category')
+//    ..set('Title', 'Bolsa Com pele de ca')
+//    ..set('Quantidade', 23.70);
+//
+//  final response = await category.save();
+//  print('${response.success}');
+
+  //Atualizar um objeto
+//  final categoryUp = ParseObject(
+//      'Category'
+//  )..objectId = 'ZFa6YB9AD4'
+//    ..set<double>('Quantidade', 23.99);
+//
+//  final responseUP = await categoryUp.save();
+//  print('${responseUP.success}');
+
+//delete
+//  final categoryDelete = ParseObject(
+//      'Category'
+//  )..objectId = 'ZFa6YB9AD4';
+//
+//  final responseDelete = await categoryDelete.delete();
+//  print('${responseDelete.success}');
+
+//Listar um objeto
+//  final categorySelect = await ParseObject('Category').getObject('lpAfLJXR99');
+//  if(categorySelect.success)
+//    print('${categorySelect.result}');
+
+//Listar um lista
+//  final categorySelectLista = await ParseObject('Category').getAll();
+//  if(categorySelectLista.success) {
+//    print('Total ${categorySelectLista.count}');
+//    for (final object in categorySelectLista.result) {
+//      print('object => ${object}');
+//    }
+//  }
+
+
+//montar uma query`
+  //tras só quando Quantidade=23.9
+//final query = QueryBuilder(ParseObject('Category'));
+//query.whereEqualTo('Quantidade', 23.9);
+//
+//final responseQuery = await query.query();
+//if(responseQuery.success){
+//  print('${responseQuery.result}');
+//}
+
+  //traga só quando contem o valor like
+//  final query = QueryBuilder(ParseObject('Category'));
+//  query.whereContains('Title', 'cobra');
+//  query.whereEqualTo('Quantidade', 23);
+
+//  final responseQuery = await query.query();
+//  if(responseQuery.success){
+//    print('${responseQuery.result}');
+//  }
