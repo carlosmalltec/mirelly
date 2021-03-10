@@ -9,21 +9,6 @@ part of 'product_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProductController on _ProductControllerBase, Store {
-  Computed<Function> _$newPressedComputed;
-
-  @override
-  Function get newPressed =>
-      (_$newPressedComputed ??= Computed<Function>(() => super.newPressed,
-              name: '_ProductControllerBase.newPressed'))
-          .value;
-  Computed<Function> _$editPressedComputed;
-
-  @override
-  Function get editPressed =>
-      (_$editPressedComputed ??= Computed<Function>(() => super.editPressed,
-              name: '_ProductControllerBase.editPressed'))
-          .value;
-
   final _$isLoadingAtom = Atom(name: '_ProductControllerBase.isLoading');
 
   @override
@@ -151,6 +136,54 @@ mixin _$ProductController on _ProductControllerBase, Store {
     });
   }
 
+  final _$productObjectAtom =
+      Atom(name: '_ProductControllerBase.productObject');
+
+  @override
+  Product get productObject {
+    _$productObjectAtom.reportRead();
+    return super.productObject;
+  }
+
+  @override
+  set productObject(Product value) {
+    _$productObjectAtom.reportWrite(value, super.productObject, () {
+      super.productObject = value;
+    });
+  }
+
+  final _$itemsProvidersAtom =
+      Atom(name: '_ProductControllerBase.itemsProviders');
+
+  @override
+  List<PopupMenuItem<String>> get itemsProviders {
+    _$itemsProvidersAtom.reportRead();
+    return super.itemsProviders;
+  }
+
+  @override
+  set itemsProviders(List<PopupMenuItem<String>> value) {
+    _$itemsProvidersAtom.reportWrite(value, super.itemsProviders, () {
+      super.itemsProviders = value;
+    });
+  }
+
+  final _$itemsCategoryAtom =
+      Atom(name: '_ProductControllerBase.itemsCategory');
+
+  @override
+  List<PopupMenuItem<String>> get itemsCategory {
+    _$itemsCategoryAtom.reportRead();
+    return super.itemsCategory;
+  }
+
+  @override
+  set itemsCategory(List<PopupMenuItem<String>> value) {
+    _$itemsCategoryAtom.reportWrite(value, super.itemsCategory, () {
+      super.itemsCategory = value;
+    });
+  }
+
   final _$getFirstPageAsyncAction =
       AsyncAction('_ProductControllerBase.getFirstPage');
 
@@ -196,6 +229,39 @@ mixin _$ProductController on _ProductControllerBase, Store {
   @override
   Future changeStatus(Product prod) {
     return _$changeStatusAsyncAction.run(() => super.changeStatus(prod));
+  }
+
+  final _$saveEditAsyncAction = AsyncAction('_ProductControllerBase.saveEdit');
+
+  @override
+  Future saveEdit(Product prod) {
+    return _$saveEditAsyncAction.run(() => super.saveEdit(prod));
+  }
+
+  final _$newProductAsyncAction =
+      AsyncAction('_ProductControllerBase.newProduct');
+
+  @override
+  Future newProduct(Product prod) {
+    return _$newProductAsyncAction.run(() => super.newProduct(prod));
+  }
+
+  final _$listProvidersEnabledAsyncAction =
+      AsyncAction('_ProductControllerBase.listProvidersEnabled');
+
+  @override
+  Future listProvidersEnabled([dynamic clearList = false]) {
+    return _$listProvidersEnabledAsyncAction
+        .run(() => super.listProvidersEnabled(clearList));
+  }
+
+  final _$listCategorysEnabledAsyncAction =
+      AsyncAction('_ProductControllerBase.listCategorysEnabled');
+
+  @override
+  Future listCategorysEnabled([dynamic clearList = false]) {
+    return _$listCategorysEnabledAsyncAction
+        .run(() => super.listCategorysEnabled(clearList));
   }
 
   final _$_ProductControllerBaseActionController =
@@ -256,8 +322,9 @@ isFormEditProduct: ${isFormEditProduct},
 isChangeScreenProduct: ${isChangeScreenProduct},
 editIDProduct: ${editIDProduct},
 error: ${error},
-newPressed: ${newPressed},
-editPressed: ${editPressed}
+productObject: ${productObject},
+itemsProviders: ${itemsProviders},
+itemsCategory: ${itemsCategory}
     ''';
   }
 }

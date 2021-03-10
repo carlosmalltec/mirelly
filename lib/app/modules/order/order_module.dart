@@ -12,8 +12,8 @@ class OrderModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => OrderPage()),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => OrderPage()),
       ];
 
   static Inject get to => Inject<OrderModule>.of();

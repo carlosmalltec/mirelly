@@ -10,6 +10,11 @@ abstract class _PromotionsControllerBase with Store {
   int value = 0;
 
   @action
+  swipeRefresh() async {
+    await Future.delayed(Duration(seconds: 3));
+    return true;
+  }
+  @action
   void increment() {
     value++;
   }

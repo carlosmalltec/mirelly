@@ -167,7 +167,7 @@ class _LoginPageState extends ModularState<LoginPage, LoginController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Modular.to.pushNamed('/signup');
+                                Modular.to.pushNamed('/home/signup');
                               },
                               child: Text(
                                 ' Cadastre-se',

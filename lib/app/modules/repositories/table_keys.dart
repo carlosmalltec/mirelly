@@ -31,7 +31,7 @@ class TableKeys {
 
       // product
 
-  static const String productTableName = "Product";
+  static const String productTableName = "Products";
   static const String productId = "objectId";
   static const String productTitle = "title";
   static const String productDescription = "description";

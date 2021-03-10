@@ -32,10 +32,26 @@ class ProviderRepository {
     }
   }
 
+  Future<List<ProviderModel>> listProvider() async {
+    final provider =
+    await QueryBuilder(ParseObject(TableKeys.providerTableName));
+    provider.whereEqualTo(TableKeys.providerStatus, ProviderStatus.ATIVO.index);
+    final List<ProviderModel> model = List<ProviderModel>();
+    final response = await provider.query();
+
+    if (response.success) {
+      for (final object in response.result) {
+        model.add(mapParseToUser(object));
+      }
+      return model;
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
   
-  \    findAllEnable() async {
+  findAllEnable() async {
     final provider = await QueryBuilder(ParseObject(TableKeys.providerTableName));
-    provider.whereEqualTo(TableKeys.providerStatus, ProviderStatus.ATIVO);
+    provider.whereEqualTo(TableKeys.providerStatus, ProviderStatus.ATIVO.index);
     final List<ProviderModel> model = List<ProviderModel>();
     final response = await provider.query();
 

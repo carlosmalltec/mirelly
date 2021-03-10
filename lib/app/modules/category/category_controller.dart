@@ -10,10 +10,10 @@ class CategoryController = _CategoryControllerBase with _$CategoryController;
 
 abstract class _CategoryControllerBase with Store, Disposable {
   @observable
-  TextEditingController titleController = TextEditingController();
+  TextEditingController titleCategoryController = TextEditingController();
 
   @observable
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController descriptionCategoryController = TextEditingController();
 
   ObservableList<Category> listData = ObservableList<Category>();
 
@@ -156,6 +156,9 @@ abstract class _CategoryControllerBase with Store, Disposable {
     isExpanded = false;
   }
 
+  @observable
+  Category categoryObject = Category();
+
   @action
   excluir(Category cat) async {
     listData.remove(cat);
@@ -164,14 +167,14 @@ abstract class _CategoryControllerBase with Store, Disposable {
 
   @action
   setFormUpdate(Category cat) {
+    categoryObject=cat;
     isChangeScreen = true; //form
     isFormEdit = true; //habilita mais campos
-    titleController.text = cat.title;
-    descriptionController.text = cat.description;
+    titleCategoryController.text = cat.title;
+    descriptionCategoryController.text = cat.description;
     categoryName = cat.title;
     categoryDescription = cat.description;
     editID = cat.id;
-    listData.remove(cat);
   }
 
   @action
@@ -202,6 +205,7 @@ abstract class _CategoryControllerBase with Store, Disposable {
       isExpanded: false,
     );
     final update = await CategoryRepository().update(editID, data);
+    listData.remove(categoryObject);
     listData.insert(0, update);
     loading = false;
     isFormEdit = false;
@@ -209,6 +213,7 @@ abstract class _CategoryControllerBase with Store, Disposable {
     error = 'Alteração com sucesso!';
     _isEmpaty();
     await Future.delayed(Duration(seconds: 3));
+    categoryObject = Category();
     success = false;
     error = null;
   }
@@ -234,6 +239,8 @@ abstract class _CategoryControllerBase with Store, Disposable {
       await Future.delayed(Duration(seconds: 3));
       success = false;
       error = null;
+      isLoading = LoadingStatus.notLoading;
+      _canLoadOnScroll = true;
     } catch (e) {
       error = e;
       loading = false;
@@ -241,15 +248,15 @@ abstract class _CategoryControllerBase with Store, Disposable {
   }
 
   _isEmpaty() {
-    descriptionController.clear();
-    titleController.clear();
+    descriptionCategoryController.clear();
+    titleCategoryController.clear();
     categoryDescription = null;
     categoryName = null;
   }
 
   @override
   void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
+    titleCategoryController.dispose();
+    descriptionCategoryController.dispose();
   }
 }

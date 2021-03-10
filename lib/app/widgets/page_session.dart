@@ -24,14 +24,6 @@ class PageSession extends StatelessWidget {
               highlight: pageStore.page == 0),
         ),
         PageTile(
-            label: 'Categorias',
-            iconData: Icons.category,
-            onTab: () {
-              pageStore.setPage(1);
-              Navigator.pop(context);
-            },
-            highlight: pageStore.page == 1),
-        PageTile(
             label: 'Produtos',
             iconData: Icons.list,
             onTab: () {
@@ -40,37 +32,13 @@ class PageSession extends StatelessWidget {
             },
             highlight: pageStore.page == 2),
         PageTile(
-            label: 'Orçamentos',
-            iconData: Icons.repeat,
+            label: 'Categorias',
+            iconData: Icons.category,
             onTab: () {
-              pageStore.setPage(3);
+              pageStore.setPage(1);
               Navigator.pop(context);
             },
-            highlight: pageStore.page == 3),
-        PageTile(
-            label: 'Vendas',
-            iconData: Icons.monetization_on,
-            onTab: () {
-              pageStore.setPage(4);
-              Navigator.pop(context);
-            },
-            highlight: pageStore.page == 4),
-        PageTile(
-            label: 'Clientes',
-            iconData: Icons.person,
-            onTab: () {
-              pageStore.setPage(5);
-              Navigator.pop(context);
-            },
-            highlight: pageStore.page == 5),
-        PageTile(
-            label: 'Chat',
-            iconData: Icons.chat,
-            onTab: () {
-              pageStore.setPage(6);
-              Navigator.pop(context);
-            },
-            highlight: pageStore.page == 6),
+            highlight: pageStore.page == 1),
         PageTile(
             label: 'Fornecedor',
             iconData: Icons.business,
@@ -79,6 +47,39 @@ class PageSession extends StatelessWidget {
               Navigator.pop(context);
             },
             highlight: pageStore.page == 7),
+        // PageTile(
+        //     label: 'Clientes',
+        //     iconData: Icons.person,
+        //     onTab: () {
+        //       pageStore.setPage(5);
+        //       Navigator.pop(context);
+        //     },
+        //     highlight: pageStore.page == 5),
+        // PageTile(
+        //     label: 'Orçamentos',
+        //     iconData: Icons.repeat,
+        //     onTab: () {
+        //       pageStore.setPage(3);
+        //       Navigator.pop(context);
+        //     },
+        //     highlight: pageStore.page == 3),
+        // PageTile(
+        //     label: 'Vendas',
+        //     iconData: Icons.monetization_on,
+        //     onTab: () {
+        //       pageStore.setPage(4);
+        //       Navigator.pop(context);
+        //     },
+        //     highlight: pageStore.page == 4),
+
+        // PageTile(
+        //     label: 'Chat',
+        //     iconData: Icons.chat,
+        //     onTab: () {
+        //       pageStore.setPage(6);
+        //       Navigator.pop(context);
+        //     },
+        //     highlight: pageStore.page == 6),
       ],
     );
   }

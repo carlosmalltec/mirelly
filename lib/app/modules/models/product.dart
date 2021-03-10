@@ -5,10 +5,10 @@ class Product{
   final String description;
 
   final double saleBuy;
-  final DateTime dateBuy;
+  final String dateBuy;
   final int quantityBuy;
   final double sumBuy;
-  final double percent;
+  final int percent;
 
   final double sales;
   final int quantityStock;

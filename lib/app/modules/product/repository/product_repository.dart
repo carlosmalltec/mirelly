@@ -9,13 +9,13 @@ class ProductRepository {
     product.set<String>(TableKeys.productTitle, c.title);
     product.set<String>(TableKeys.productDescription, c.description);
 
-    product.set<DateTime>(TableKeys.productDateBuy, c.dateBuy);
-    product.set<double>(TableKeys.productSaleBuy, c.saleBuy);
+    product.set<String>(TableKeys.productDateBuy, c.dateBuy);
+    product.set<String>(TableKeys.productSaleBuy, c.saleBuy.toString());
     product.set<int>(TableKeys.productQuantityBuy, c.quantityBuy);
-    product.set<double>(TableKeys.productSumBuy, c.sumBuy);
+    product.set<String>(TableKeys.productSumBuy, c.sumBuy.toString());
 
-    product.set<double>(TableKeys.productPercent, c.percent);
-    product.set<double>(TableKeys.productSales, c.sales);
+    product.set<int>(TableKeys.productPercent, c.percent);
+    product.set<String>(TableKeys.productSales, c.sales.toString());
     product.set<int>(TableKeys.productQuantityStock, c.quantityStock);
 
     product.set<String>(TableKeys.productCategory, c.category);
@@ -26,6 +26,7 @@ class ProductRepository {
 
     final response = await product.save();
     if (response.success) {
+      print('response => ${response}');
       return mapForProduct(response.result);
     } else {
       return Future.error(ParseErrors.getDescription(response.error.code));
@@ -45,10 +46,9 @@ class ProductRepository {
     }
   }
 
-  Future<dynamic> excluir(Product cat) async {
-    final productDelete = ParseObject(TableKeys.productTableName)..objectId = cat.id;
+  Future<dynamic> excluir(Product prod) async {
+    final productDelete = ParseObject(TableKeys.productTableName)..objectId = prod.id;
     final delete = await productDelete.delete();
-
     if (delete.success) {
       return true;
     } else {
@@ -61,13 +61,13 @@ class ProductRepository {
     productUp.set<String>(TableKeys.productTitle, prod.title);
     productUp.set<String>(TableKeys.productDescription, prod.description);
 
-    productUp.set<DateTime>(TableKeys.productDateBuy, prod.dateBuy);
-    productUp.set<double>(TableKeys.productSaleBuy, prod.saleBuy);
+    productUp.set<String>(TableKeys.productDateBuy, prod.dateBuy);
+    productUp.set<String>(TableKeys.productSaleBuy, prod.saleBuy.toString());
     productUp.set<int>(TableKeys.productQuantityBuy, prod.quantityBuy);
-    productUp.set<double>(TableKeys.productSumBuy, prod.sumBuy);
+    productUp.set<String>(TableKeys.productSumBuy, prod.sumBuy.toString());
 
-    productUp.set<double>(TableKeys.productPercent, prod.percent);
-    productUp.set<double>(TableKeys.productSales, prod.sales);
+    productUp.set<int>(TableKeys.productPercent, prod.percent);
+    productUp.set<String>(TableKeys.productSales, prod.sales.toString());
     productUp.set<int>(TableKeys.productQuantityStock, prod.quantityStock);
 
     productUp.set<String>(TableKeys.productCategory, prod.category);
@@ -91,11 +91,11 @@ class ProductRepository {
       title: dataResult.get(TableKeys.productTitle),
       description: dataResult.get(TableKeys.productDescription),
       dateBuy: dataResult.get(TableKeys.productDateBuy),
-      saleBuy: dataResult.get(TableKeys.productSaleBuy),
+      saleBuy: double.parse(dataResult.get(TableKeys.productSaleBuy)),
       quantityBuy: dataResult.get(TableKeys.productQuantityBuy),
-      sumBuy: dataResult.get(TableKeys.productSumBuy),
+      sumBuy: double.parse(dataResult.get(TableKeys.productSumBuy)),
       percent: dataResult.get(TableKeys.productPercent),
-      sales: dataResult.get(TableKeys.productSales),
+      sales: double.parse(dataResult.get(TableKeys.productSales)),
       quantityStock: dataResult.get(TableKeys.productQuantityStock),
       category: dataResult.get(TableKeys.productCategory),
       provider: dataResult.get(TableKeys.productProvider),

@@ -12,8 +12,8 @@ class ChatModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => ChatPage()),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => ChatPage()),
       ];
 
   static Inject get to => Inject<ChatModule>.of();

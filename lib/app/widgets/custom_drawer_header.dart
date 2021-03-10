@@ -28,7 +28,7 @@ class CustomDrawerHeader extends StatelessWidget {
                 Navigator.of(context).pop();
                 appController.isLoggedIn
                     ? GetIt.I<ControllerPageStore>().setPage(0)
-                    : Modular.to.pushNamed('/login');
+                    : Modular.to.pushNamed('/home/login');
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:sistema_de_controle/app/widgets/error_box.dart';
 import 'package:sistema_de_controle/app/widgets/field_title.dart';
+import 'package:sistema_de_controle/app/widgets/input_field_widgets.dart';
 
 import 'providers_controller.dart';
 
@@ -48,15 +49,11 @@ class FormProviders extends StatelessWidget {
                     subtitle: 'Informe o nome do fornecedor',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: controller.titleController,
-                      decoration: InputDecoration(
-                          enabled: !controller.loadingProvider,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          hintText: 'Exemplo: Avon, Natura',
-                          errorText: controller.nameError),
-                      keyboardType: TextInputType.text,
+                    return InputFieldWidgets(
+                      controller: controller.titleProviderController,
+                      enabled: !controller.loadingProvider,
+                      hintText: 'Exemplo: Natura',
+                      errorText: controller.nameError,
                       onChanged: controller.setName,
                     );
                   }),
@@ -67,15 +64,11 @@ class FormProviders extends StatelessWidget {
                   ),
                   Observer(
                     builder: (_) {
-                      return TextField(
-                        controller: controller.descriptionController,
-                        decoration: InputDecoration(
-                            enabled: !controller.loadingProvider,
-                            border: const OutlineInputBorder(),
-                            isDense: true,
-                            hintText: 'Exemplo: Observações',
-                            errorText: controller.providerDescriptionError),
-                        keyboardType: TextInputType.text,
+                      return InputFieldWidgets(
+                        controller: controller.descriptionProvidersController,
+                        enabled: !controller.loadingProvider,
+                        hintText: 'Exemplo: Observações',
+                        errorText: controller.providerDescriptionError,
                         onChanged: controller.setProviderDescription,
                       );
                     },

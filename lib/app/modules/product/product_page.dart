@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sistema_de_controle/app/modules/category/category_controller.dart';
 import 'package:sistema_de_controle/app/modules/models/product.dart';
 import 'package:sistema_de_controle/app/modules/product/validate_form_controller.dart';
+import 'package:sistema_de_controle/app/modules/providers/providers_controller.dart';
 import 'package:sistema_de_controle/app/widgets/actions_button.dart';
+import 'package:sistema_de_controle/app/widgets/field_title.dart';
 import 'package:sistema_de_controle/app/widgets/item_not_found.dart';
 import 'package:sistema_de_controle/app/widgets/loading_status.dart';
 import 'package:sistema_de_controle/constants/colors.dart';
@@ -25,8 +28,6 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends ModularState<ProductPage, ProductController>
     with WidgetsBindingObserver {
   final ScrollController _scroll = ScrollController();
-
-  final ValidateFormController _validateForm = ValidateFormController();
 
   @override
   void initState() {
@@ -63,8 +64,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
                     RaisedButton.icon(
                       onPressed: () {
                         controller.setChangeForm();
-                        controller.isFormEditProduct =
-                            false; //habilita mais campos
+                        controller.isFormEditProduct = false; //habilita mais campos
                       },
                       icon: Icon(
                         Icons.add_circle,
@@ -83,7 +83,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
                       width: 10,
                     ),
                     RaisedButton.icon(
-                      onPressed: controller.setChangeList,
+                      onPressed:()=> controller.setChangeList(),
                       icon: Icon(
                         Icons.view_list,
                         color: Colors.white,
@@ -106,6 +106,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
             ),
             Observer(
               builder: (_) {
+                print('controller.listDataProduct.length ${controller.listDataProduct.length}');
                 controller.isExpandedProduct; //action for change expanded list
                 if (controller.isChangeScreenProduct)
                   return Expanded(child: FormProduct(controller: controller));
@@ -119,6 +120,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
                       ),
                     );
                   } else {
+                    print('listar dados');
                     return Expanded(
                       child: CupertinoScrollbar(child: _listProduct(_scroll)),
                     );
@@ -161,7 +163,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
                       return ListTile(
                           leading: Icon(Icons.brightness_1,
                               color: _products.status != ProductStatus.ATIVO
-                                  ? Colors.redAccent
+                                  ? Colors.orangeAccent
                                   : Colors.green),
                           title: Text(
                             _products.title ?? "",
@@ -173,126 +175,122 @@ class _ProductPageState extends ModularState<ProductPage, ProductController>
                           ));
                     },
                     isExpanded: _change ?? false,
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoSizeText.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Data da compra',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 12/12/2020 \n'),
-                              TextSpan(
-                                  text: 'Valor da compra',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' R\$: 67,00 \n'),
-                              TextSpan(
-                                  text: 'Quantidade',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 120 \n'),
-                              TextSpan(
-                                  text: 'Total',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 150,99 \n'),
-                              TextSpan(text: ' ---------------------'),
-                            ],
+                    body: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText.rich(
+                            TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'Data da compra',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.dateBuy ?? ""} \n'),
+                                TextSpan(
+                                    text: 'Valor da compra',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' R\$: ${ _products.saleBuy ?? ""} \n'),
+                                TextSpan(
+                                    text: 'Quantidade',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.quantityBuy ?? ""} \n'),
+                                TextSpan(
+                                    text: 'Total',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.sumBuy ?? ""} \n'),
+                                TextSpan(text: ' ---------------------'),
+                              ],
+                            ),
+                            style: TextStyle(fontSize: 16),
+                            maxLines: 5,
                           ),
-                          style: TextStyle(fontSize: 16),
-                          maxLines: 5,
-                        ),
-                        AutoSizeText.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Margem de lucro',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 400% \n'),
-                              TextSpan(
-                                  text: 'Valor de venda',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 190,00 \n'),
-                              TextSpan(
-                                  text: 'Estoque atual',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' 145 \n'),
-                              TextSpan(text: ' ---------------------'),
-                            ],
+                          AutoSizeText.rich(
+                            TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'Margem de lucro',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.percent ?? ""}% \n'),
+                                TextSpan(
+                                    text: 'Valor de venda',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.sales ?? ""} \n'),
+                                TextSpan(
+                                    text: 'Estoque atual',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ _products.quantityStock ?? ""} \n'),
+                                TextSpan(text: ' ---------------------'),
+                              ],
+                            ),
+                            style: TextStyle(fontSize: 16),
+                            maxLines: 5,
                           ),
-                          style: TextStyle(fontSize: 16),
-                          maxLines: 5,
-                        ),
 
-                        AutoSizeText.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Categoria',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' Creme \n'),
-                              TextSpan(
-                                  text: 'Fornecedor',
-                                  style:
-                                  TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: ' AVON \n'),
-                              TextSpan(text: ' ---------------------'),
+                          AutoSizeText.rich(
+                            TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'Categoria',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${controller.isSelectedOptionsCategory[_products.category] ?? ""} \n'),
+                                TextSpan(
+                                    text: 'Fornecedor',
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ' ${ controller.isSelectedOptionsProviders[_products.provider] ?? ""} \n'),
+                                TextSpan(text: ' ---------------------'),
+                              ],
+                            ),
+                            style: TextStyle(fontSize: 16),
+                            maxLines: 5,
+                          ),
+                          FieldTitle(
+                            title: 'Descrição:',
+                            subtitle: _products.description,
+                          ),
+                          ButtonBar(
+                            mainAxisSize: MainAxisSize
+                                .max, // this will take space as minimum as posible(to center)
+                            alignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              ActionsButton(
+                                  onPressed: () => controller.excluir(_products),
+                                  icon: Icons.delete,
+                                  title: 'Excluir',
+                                  background: Colors.redAccent),
+                              ActionsButton(
+                                  onPressed: () {
+                                    controller.setFormUpdate(_products);
+                                  },
+                                  icon: Icons.edit,
+                                  title: 'Editar',
+                                  background: Colors.blueAccent),
+                              ActionsButton(
+                                  onPressed: () {
+                                    controller.changeStatus(_products);
+                                  },
+                                  icon: _products.status == ProductStatus.ATIVO
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  title: _products.status == ProductStatus.ATIVO
+                                      ? 'Inativar'
+                                      : 'Ativar',
+                                  background: _products.status != ProductStatus.ATIVO
+                              ? Colors.green
+                                  : Colors.orangeAccent),
                             ],
                           ),
-                          style: TextStyle(fontSize: 16),
-                          maxLines: 5,
-                        ),
-
-                        AutoSizeText.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Descrição: \n',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: _products.description),
-                            ],
-                          ),
-                          style: TextStyle(fontSize: 16),
-                          maxLines: 5,
-                        ),
-                        ButtonBar(
-                          mainAxisSize: MainAxisSize
-                              .min, // this will take space as minimum as posible(to center)
-                          children: <Widget>[
-                            ActionsButton(
-                                onPressed: () => controller.excluir(_products),
-                                icon: Icons.delete,
-                                title: 'Excluir',
-                                background: Colors.redAccent),
-                            ActionsButton(
-                                onPressed: () {
-                                  controller.setFormUpdate(_products);
-                                },
-                                icon: Icons.edit,
-                                title: 'Editar',
-                                background: Colors.green),
-                            ActionsButton(
-                                onPressed: () {
-                                  controller.changeStatus(_products);
-                                },
-                                icon: _products.status == ProductStatus.ATIVO
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                title: _products.status == ProductStatus.ATIVO
-                                    ? 'Ativar'
-                                    : 'Inativar',
-                                background: Colors.orangeAccent),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ))
               ],
             ),

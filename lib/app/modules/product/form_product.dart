@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:sistema_de_controle/app/modules/category/category_controller.dart';
 import 'package:sistema_de_controle/app/modules/product/validate_form_controller.dart';
+import 'package:sistema_de_controle/app/modules/providers/providers_controller.dart';
 import 'package:sistema_de_controle/app/widgets/error_box.dart';
 import 'package:sistema_de_controle/app/widgets/field_title.dart';
+import 'package:sistema_de_controle/app/widgets/input_field_widgets.dart';
 
 import 'product_controller.dart';
 
@@ -20,16 +23,6 @@ class FormProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ValidateFormController _controller = ValidateFormController();
-    var _currencies = [
-      "Food",
-      "Transport",
-      "Personal",
-      "Shopping",
-      "Medical",
-      "Rent",
-      "Movie",
-      "Salary"
-    ];
     return Container(
       alignment: Alignment.center,
       child: SingleChildScrollView(
@@ -61,16 +54,12 @@ class FormProduct extends StatelessWidget {
                     subtitle: 'Título do produto',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: _controller.titleC,
-                      decoration: InputDecoration(
-                          enabled: !controller.loadingProduct,
-                          border: const OutlineInputBorder(),
-                          isDense: true,
-                          hintText: 'Exemplo: GEL CREME PROTETOR',
-                          errorText: _controller.nameError),
-                      keyboardType: TextInputType.text,
-                      onChanged: _controller.setName,
+                    return InputFieldWidgets(
+                      controller: controller.titleC,
+                      enabled: !controller.loadingProduct,
+                      hintText: 'Exemplo: Nome',
+                      errorText: controller.nameError,
+                      onChanged: controller.setNameProduct,
                       maxLength: 150,
                     );
                   }),
@@ -80,18 +69,14 @@ class FormProduct extends StatelessWidget {
                     subtitle: 'Data da compra',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: _controller.productDateBuyC,
-                      decoration: InputDecoration(
-                        enabled: !controller.loadingProduct,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        hintText: 'Exemplo: 00/00/0000',
-//                          errorText: controller.nameError,
-                      ),
-                      keyboardType: TextInputType.datetime,
-                      onChanged: _controller.setProductDateBuye,
+                    return InputFieldWidgets(
+                      controller: controller.productDateBuyC,
+                      enabled: !controller.loadingProduct,
+                      hintText: 'Exemplo: 00/00/0000',
+                      errorText: null,
+                      onChanged: controller.setProductDateBuye,
                       maxLength: 10,
+                      // type: TextInputType.datetime
                     );
                   }),
                   const SizedBox(height: 16),
@@ -100,25 +85,13 @@ class FormProduct extends StatelessWidget {
                     subtitle: 'Valor da compra',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: controller.productSaleBuyC,
-                      decoration: InputDecoration(
+                    return InputFieldWidgets(
+                        controller: controller.productSaleBuyC,
                         enabled: !controller.loadingProduct,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                        hintText: 'Exemplo: 99.99',
-//                          errorText: controller.nameError,
-                      ),
-//                      inputFormatters: [
-//                        WhitelistingTextInputFormatter.digitsOnly,
-//                        CurrencyInputFormatter()
-//                      ],
-                      keyboardType: TextInputType.number,
-                      onChanged: (value){
-                        _controller.setProductSaleBuy(value);
-                      },
-                      maxLength: 15,
-                    );
+                        hintText: 'Exemplo: 00.00',
+                        onChanged: (v) => controller.setProductSaleBuy(v),
+                        maxLength: 15,
+                        type: TextInputType.number);
                   }),
                   const SizedBox(height: 16),
                   FieldTitle(
@@ -126,25 +99,18 @@ class FormProduct extends StatelessWidget {
                     subtitle: 'Total de produtos comprados',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: _controller.productQuantityBuyC,
-                      decoration: InputDecoration(
+                    return InputFieldWidgets(
+                        controller: controller.productQuantityBuyC,
                         enabled: !controller.loadingProduct,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
                         hintText: 'Exemplo: 200',
-//                          errorText: controller.nameError,
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value){
-                        _controller.setProductQuantityBuy(value);
-                      },
-                      maxLength: 10,
-                    );
+                        onChanged: (v) => controller.setProductQuantityBuy(v),
+                        maxLength: 10,
+                        type: TextInputType.number);
                   }),
                   Observer(builder: (_) {
                     return FieldTitle(
-                      title: 'Valor da compra R\$: ${_controller.productSaleBuyFinal}',
+                      title:
+                          'Valor da compra R\$: ${controller.productSaleBuyFinal}',
                       subtitle: '(Quantidade x valor de compra)',
                     );
                   }),
@@ -154,26 +120,20 @@ class FormProduct extends StatelessWidget {
                     subtitle: 'Digite margem de lucro em número sem o %',
                   ),
                   Observer(builder: (_) {
-                    return TextField(
-                      controller: _controller.productPercentC,
-                      decoration: InputDecoration(
+                    return InputFieldWidgets(
+                        controller: controller.productPercentC,
                         enabled: !controller.loadingProduct,
-                        border: const OutlineInputBorder(),
-                        isDense: true,
                         hintText: 'Exemplo: 100',
-//                          errorText: controller.nameError,
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value){
-                        _controller.setProductPercent(value);
-                      },
-                      maxLength: 6,
-                    );
+                        onChanged: (v) => controller.setProductPercent(v),
+                        maxLength: 6,
+                        type: TextInputType.number);
                   }),
                   Observer(builder: (_) {
-                    print('productSaleAndPercent ${_controller.productSaleAndPercent}');
+                    print(
+                        'productSaleAndPercent ${controller.productSaleAndPercent}');
                     return FieldTitle(
-                      title: 'Valor de venda R\$: ${_controller.productSaleAndPercent}',
+                      title:
+                          'Valor de venda R\$: ${controller.productSaleAndPercent}',
                       subtitle: 'valor de compra + (Lucro x valor de compra)',
                     );
                   }),
@@ -184,7 +144,7 @@ class FormProduct extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
-                      controller: _controller.productCategoryC,
+                      controller: controller.productCategoryC,
                       decoration: InputDecoration(
                         enabled: !controller.loadingProduct,
                         border: const OutlineInputBorder(),
@@ -193,15 +153,12 @@ class FormProduct extends StatelessWidget {
                         suffixIcon: PopupMenuButton<String>(
                           icon: const Icon(Icons.arrow_drop_down),
                           onSelected: (String value) {
-                            _controller.productCategoryC.text = value;
-                            _controller.setProductCategory(value);
+                            controller.productCategoryC.text =
+                                controller.isSelectedOptionsCategory[value];
+                            controller.setProductCategory(value);
                           },
                           itemBuilder: (BuildContext context) {
-                            return _currencies
-                                .map<PopupMenuItem<String>>((String value) {
-                              return new PopupMenuItem(
-                                  child: new Text(value), value: value);
-                            }).toList();
+                            return controller.itemsCategory;
                           },
                         ),
                       ),
@@ -214,7 +171,7 @@ class FormProduct extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
-                      controller: _controller.productProviderC,
+                      controller: controller.productProviderC,
                       decoration: InputDecoration(
                         enabled: !controller.loadingProduct,
                         border: const OutlineInputBorder(),
@@ -223,15 +180,12 @@ class FormProduct extends StatelessWidget {
                         suffixIcon: PopupMenuButton<String>(
                           icon: const Icon(Icons.arrow_drop_down),
                           onSelected: (String value) {
-                            _controller.productProviderC.text = value;
-                            _controller.setProductProvider(value);
+                            controller.productProviderC.text =
+                                controller.isSelectedOptionsProviders[value];
+                            controller.setProductProvider(value);
                           },
                           itemBuilder: (BuildContext context) {
-                            return _currencies
-                                .map<PopupMenuItem<String>>((String value) {
-                              return new PopupMenuItem(
-                                  child: new Text(value), value: value);
-                            }).toList();
+                            return controller.itemsProviders;
                           },
                         ),
                       ),
@@ -251,12 +205,11 @@ class FormProduct extends StatelessWidget {
                           border: const OutlineInputBorder(),
                           isDense: true,
                           hintText: 'Exemplo: Descrição',
-//                            errorText: controller.productDescriptionError,
                         ),
                         keyboardType: TextInputType.multiline,
                         onChanged: controller.setProductDescription,
-                        maxLines: 5,
                         maxLength: 500,
+                        maxLines: 5,
                       );
                     },
                   ),
@@ -279,11 +232,24 @@ class FormProduct extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         onPressed: () {
-                          print(controller.isFormEditProduct);
-                          controller.isFormEditProduct
-                              ? controller.editPressed()
-                              : controller.newPressed();
+                          print(
+                              'isFormValidate => ${controller.isFormValidate}');
+                          print(
+                              'isFormEditProduct => ${controller.isFormEditProduct}');
+                          print(
+                              'loadingProduct => ${controller.loadingProduct}');
+                          print('prepareProduct => ${controller.prepareProduct.toString()}');
+                          print('Novo => ${controller.isFormValidate && !controller.isFormEditProduct && !controller.loadingProduct}');
+                          print('Editar => ${controller.isFormValidate && controller.isFormEditProduct && !controller.loadingProduct}');
+
+                          if (controller.isFormValidate && controller.isFormEditProduct && !controller.loadingProduct)
+                            controller.saveEdit(controller.prepareProduct);
+                          if (controller.isFormValidate && !controller.isFormEditProduct && !controller.loadingProduct)
+                            controller.newProduct(controller.prepareProduct);
                         },
+                        // onPressed:() => (_controller.isFormValidate && controller.isFormEditProduct && !controller.loadingProduct) ?
+                        // controller.saveEdit(controller.prepareProduct) :
+                        // controller.newProduct(controller.prepareProduct),
                         disabledTextColor: Colors.white,
                         disabledColor:
                             Theme.of(context).primaryColor.withOpacity(0.4),
@@ -299,26 +265,3 @@ class FormProduct extends StatelessWidget {
     );
   }
 }
-
-
-
-//class CurrencyInputFormatter extends TextInputFormatter {
-//
-//  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-//
-//    if(newValue.selection.baseOffset == 0){
-//      print(true);
-//      return newValue;
-//    }
-//
-//    double value = double.parse(newValue.text);
-//
-//    final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
-//
-//    String newText = formatter.format(value/100);
-//
-//    return newValue.copyWith(
-//        text: newText,
-//        selection: new TextSelection.collapsed(offset: newText.length));
-//  }
-//}

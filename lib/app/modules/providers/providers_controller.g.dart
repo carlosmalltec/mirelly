@@ -45,36 +45,37 @@ mixin _$ProvidersController on _ProvidersControllerBase, Store {
               name: '_ProvidersControllerBase.editPressed'))
           .value;
 
-  final _$titleControllerAtom =
-      Atom(name: '_ProvidersControllerBase.titleController');
+  final _$titleProviderControllerAtom =
+      Atom(name: '_ProvidersControllerBase.titleProviderController');
 
   @override
-  TextEditingController get titleController {
-    _$titleControllerAtom.reportRead();
-    return super.titleController;
+  TextEditingController get titleProviderController {
+    _$titleProviderControllerAtom.reportRead();
+    return super.titleProviderController;
   }
 
   @override
-  set titleController(TextEditingController value) {
-    _$titleControllerAtom.reportWrite(value, super.titleController, () {
-      super.titleController = value;
+  set titleProviderController(TextEditingController value) {
+    _$titleProviderControllerAtom
+        .reportWrite(value, super.titleProviderController, () {
+      super.titleProviderController = value;
     });
   }
 
-  final _$descriptionControllerAtom =
-      Atom(name: '_ProvidersControllerBase.descriptionController');
+  final _$descriptionProvidersControllerAtom =
+      Atom(name: '_ProvidersControllerBase.descriptionProvidersController');
 
   @override
-  TextEditingController get descriptionController {
-    _$descriptionControllerAtom.reportRead();
-    return super.descriptionController;
+  TextEditingController get descriptionProvidersController {
+    _$descriptionProvidersControllerAtom.reportRead();
+    return super.descriptionProvidersController;
   }
 
   @override
-  set descriptionController(TextEditingController value) {
-    _$descriptionControllerAtom.reportWrite(value, super.descriptionController,
-        () {
-      super.descriptionController = value;
+  set descriptionProvidersController(TextEditingController value) {
+    _$descriptionProvidersControllerAtom
+        .reportWrite(value, super.descriptionProvidersController, () {
+      super.descriptionProvidersController = value;
     });
   }
 
@@ -237,6 +238,22 @@ mixin _$ProvidersController on _ProvidersControllerBase, Store {
     });
   }
 
+  final _$providersObjectAtom =
+      Atom(name: '_ProvidersControllerBase.providersObject');
+
+  @override
+  ProviderModel get providersObject {
+    _$providersObjectAtom.reportRead();
+    return super.providersObject;
+  }
+
+  @override
+  set providersObject(ProviderModel value) {
+    _$providersObjectAtom.reportWrite(value, super.providersObject, () {
+      super.providersObject = value;
+    });
+  }
+
   final _$getFirstPageAsyncAction =
       AsyncAction('_ProvidersControllerBase.getFirstPage');
 
@@ -273,16 +290,16 @@ mixin _$ProvidersController on _ProvidersControllerBase, Store {
   final _$excluirAsyncAction = AsyncAction('_ProvidersControllerBase.excluir');
 
   @override
-  Future excluir(ProviderModel cat) {
-    return _$excluirAsyncAction.run(() => super.excluir(cat));
+  Future excluir(ProviderModel prov) {
+    return _$excluirAsyncAction.run(() => super.excluir(prov));
   }
 
   final _$changeStatusAsyncAction =
       AsyncAction('_ProvidersControllerBase.changeStatus');
 
   @override
-  Future changeStatus(ProviderModel cat) {
-    return _$changeStatusAsyncAction.run(() => super.changeStatus(cat));
+  Future changeStatus(ProviderModel prov) {
+    return _$changeStatusAsyncAction.run(() => super.changeStatus(prov));
   }
 
   final _$_ProvidersControllerBaseActionController =
@@ -344,11 +361,11 @@ mixin _$ProvidersController on _ProvidersControllerBase, Store {
   }
 
   @override
-  dynamic setFormUpdate(ProviderModel cat) {
+  dynamic setFormUpdate(ProviderModel prov) {
     final _$actionInfo = _$_ProvidersControllerBaseActionController.startAction(
         name: '_ProvidersControllerBase.setFormUpdate');
     try {
-      return super.setFormUpdate(cat);
+      return super.setFormUpdate(prov);
     } finally {
       _$_ProvidersControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -357,8 +374,8 @@ mixin _$ProvidersController on _ProvidersControllerBase, Store {
   @override
   String toString() {
     return '''
-titleController: ${titleController},
-descriptionController: ${descriptionController},
+titleProviderController: ${titleProviderController},
+descriptionProvidersController: ${descriptionProvidersController},
 isLoading: ${isLoading},
 loadingProvider: ${loadingProvider},
 isExpandedProvider: ${isExpandedProvider},
@@ -369,6 +386,7 @@ editIDProvider: ${editIDProvider},
 error: ${error},
 providerName: ${providerName},
 providerDescription: ${providerDescription},
+providersObject: ${providersObject},
 providerNameValid: ${providerNameValid},
 providerDescriptionValid: ${providerDescriptionValid},
 isFormValid: ${isFormValid},

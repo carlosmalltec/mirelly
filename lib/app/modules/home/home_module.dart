@@ -15,10 +15,10 @@ class HomeModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => HomePage(), transition: TransitionType.fadeIn),
-        Router('/login', module: LoginModule(), transition: TransitionType.fadeIn),
-    Router('/signup', module: SignupModule(), transition: TransitionType.fadeIn),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => HomePage(), transition: TransitionType.fadeIn),
+    ModularRouter('/login', module: LoginModule(), transition: TransitionType.fadeIn),
+    ModularRouter('/signup', module: SignupModule(), transition: TransitionType.fadeIn),
       ];
 
   static Inject get to => Inject<HomeModule>.of();

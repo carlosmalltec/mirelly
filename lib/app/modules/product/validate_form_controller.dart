@@ -62,7 +62,7 @@ abstract class _ValidateFormController with Store, Disposable {
   String productName;
 
   @action
-  void setName(value) => productName = value;
+  void setNameProduct(value) => productName = value;
 
   @computed
   bool get productNameValid => productName != null && productName.length > 2;
@@ -83,7 +83,7 @@ abstract class _ValidateFormController with Store, Disposable {
   void setProductDescription(value) => productDescription = value;
 
   @observable
-  DateTime productDateBuy;
+  String productDateBuy;
 
   @action
   void setProductDateBuye(value) => productDateBuy = value;
@@ -161,7 +161,7 @@ abstract class _ValidateFormController with Store, Disposable {
 
   @computed
   get productSaleAndPercent =>
-      (productPercent != '' && productSaleBuy != '') ? _sumPercent(productPercent) : 0.0;
+      (productPercent != null  && productSaleBuy != null) ? _sumPercent(productPercent) :0.0;
 
   _sumPercent(percent) {
     if (percent != '' && productSaleBuy != null) {
@@ -174,9 +174,16 @@ abstract class _ValidateFormController with Store, Disposable {
   }
 
   double _formatNumber(dynamic value) {
+    if(value == null || value == '') return 0.0;
     String _onlyDigits = value.replaceAll(RegExp('[^0-9]'), "");
     double _doubleValue = double.parse(_onlyDigits) / 100;
     return _doubleValue;
+  }
+
+  int _formatNumberInt(dynamic value) {
+    if(value == null || value == '') return 0;
+    int _valueFormat  = int.parse(value);
+    return _valueFormat;
   }
 
   @computed
@@ -184,21 +191,21 @@ abstract class _ValidateFormController with Store, Disposable {
 
   Product get prepareProduct => Product(
         title: productName,
-        dateBuy: productDateBuy ?? DateTime.now(),
-        description: productDescription ?? '',
-        saleBuy: productSaleBuy ?? 0.00,
-        quantityBuy: productQuantityBuy ?? 1,
-        sumBuy: productSaleBuyFinal ?? 0.00,
-        percent: productPercent ?? 00,
-        sales: _sumPercent ?? 0.00,
-        quantityStock: productQuantityStock ?? 1,
-        category: productCategory ?? '',
-        provider: productProvider ?? '',
+        dateBuy: productDateBuy,
+        description: productDescription,
+        saleBuy: _formatNumber(productSaleBuy),
+        quantityBuy: _formatNumberInt(productQuantityBuy),
+        sumBuy: productSaleBuyFinal,
+        percent: _formatNumberInt(productPercent),
+        sales: productSaleAndPercent,
+        quantityStock: _formatNumberInt(productQuantityBuy),
+        category: productCategory,
+        provider: productProvider,
         isExpanded: false,
         status: ProductStatus.ATIVO,
       );
 
-  Product productUpdate(Product prod) {
+  Product productUpdate({Product prod, bool status = false}) {
     return Product(
       id: prod.id,
       title: prod.title,
@@ -213,22 +220,11 @@ abstract class _ValidateFormController with Store, Disposable {
       category: prod.category,
       provider: prod.provider,
       isExpanded: false,
-      status: prod.status,
+      status: prod.status != ProductStatus.ATIVO
+          ? ProductStatus.ATIVO
+          : ProductStatus.INATIVO,
     );
   }
-
-//  product.set<DateTime>(TableKeys.productDateBuy, c.dateBuy);
-//  product.set<double>(TableKeys.productSaleBuy, c.saleBuy);
-//  product.set<int>(TableKeys.productQuantityBuy, c.quantityBuy);
-
-//  product.set<double>(TableKeys.productSumBuy, c.sumBuy); *
-//
-//  product.set<double>(TableKeys.productPercent, c.percent);
-//  product.set<double>(TableKeys.productSales, c.sales);
-//  product.set<int>(TableKeys.productQuantityStock, c.quantityStock);
-//
-//  product.set<String>(TableKeys.productCategory, c.category);
-//  product.set<String>(TableKeys.productProvider, c.provider);
 
   @override
   void dispose() {

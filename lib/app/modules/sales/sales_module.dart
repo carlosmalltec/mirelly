@@ -12,8 +12,8 @@ class SalesModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => SalesPage()),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => SalesPage()),
       ];
 
   static Inject get to => Inject<SalesModule>.of();

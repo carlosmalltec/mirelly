@@ -12,8 +12,8 @@ class PromotionsModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => PromotionsPage()),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => PromotionsPage()),
       ];
 
   static Inject get to => Inject<PromotionsModule>.of();

@@ -12,10 +12,10 @@ class ProvidersController = _ProvidersControllerBase with _$ProvidersController;
 
 abstract class _ProvidersControllerBase with Store ,Disposable{
   @observable
-  TextEditingController titleController = TextEditingController();
+  TextEditingController titleProviderController = TextEditingController();
 
   @observable
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController descriptionProvidersController = TextEditingController();
 
   ObservableList<ProviderModel> listDataProvider = ObservableList<ProviderModel>();
 
@@ -69,7 +69,7 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
     } else if (providerName.isEmpty) {
       return 'Nome obrigatório';
     } else {
-      return 'Informe nome da categoria';
+      return 'Informe nome do fornecedor';
     }
   }
 
@@ -88,7 +88,7 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
     } else if (providerDescription.isEmpty) {
       return 'Nome obrigatório';
     } else {
-      return 'Informe nome da categoria';
+      return 'Informe nome do fornecedor';
     }
   }
 
@@ -159,38 +159,41 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
   }
 
   @action
-  excluir(ProviderModel cat) async {
-    listDataProvider.remove(cat);
-    final delete = await ProviderRepository().excluir(cat);
+  excluir(ProviderModel prov) async {
+    listDataProvider.remove(prov);
+    final delete = await ProviderRepository().excluir(prov);
   }
 
+  @observable
+  ProviderModel providersObject = ProviderModel();
+
   @action
-  setFormUpdate(ProviderModel cat) {
+  setFormUpdate(ProviderModel prov) {
+    providersObject = prov;
     isChangeScreenProvider = true; //form
     isFormEditProvider = true; //habilita mais campos
-    titleController.text = cat.title;
-    descriptionController.text = cat.description;
-    providerName = cat.title;
-    providerDescription = cat.description;
-    editIDProvider = cat.id;
-    listDataProvider.remove(cat);
+    titleProviderController.text = prov.title;
+    descriptionProvidersController.text = prov.description;
+    providerName = prov.title;
+    providerDescription = prov.description;
+    editIDProvider = prov.id;
   }
 
   @action
-  changeStatus(ProviderModel cat) async {
+  changeStatus(ProviderModel prov) async {
     final ProviderModel data = ProviderModel(
-      id: cat.id,
-      title: cat.title,
-      description: cat.description,
-      status: cat.status != ProviderStatus.ATIVO
+      id: prov.id,
+      title: prov.title,
+      description: prov.description,
+      status: prov.status != ProviderStatus.ATIVO
           ? ProviderStatus.ATIVO
           : ProviderStatus.INATIVO,
       isExpanded: false,
     );
-    listDataProvider.remove(cat);
+    listDataProvider.remove(prov);
     listDataProvider.insert(0, data);
-    editIDProvider = cat.id;
-    final update = await ProviderRepository().update(editIDProvider, data);
+    editIDProvider = prov.id;
+    await ProviderRepository().update(editIDProvider, data);
   }
 
   _saveEdit() async {
@@ -204,6 +207,7 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
       isExpanded: false,
     );
     final update = await ProviderRepository().update(editIDProvider, data);
+    listDataProvider.remove(providersObject);
     listDataProvider.insert(0, update);
     loadingProvider = false;
     isFormEditProvider = false;
@@ -236,6 +240,8 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
       await Future.delayed(Duration(seconds: 3));
       successProvider = false;
       error = null;
+      isLoading = LoadingStatus.notLoading;
+      _canLoadOnScroll = true;
     } catch (e) {
       error = e;
       loadingProvider = false;
@@ -243,15 +249,15 @@ abstract class _ProvidersControllerBase with Store ,Disposable{
   }
 
   _isEmpaty() {
-    descriptionController.clear();
-    titleController.clear();
+    descriptionProvidersController.clear();
+    titleProviderController.clear();
     providerDescription = null;
     providerName = null;
   }
 
   @override
   void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
+    titleProviderController.dispose();
+    descriptionProvidersController.dispose();
   }
 }

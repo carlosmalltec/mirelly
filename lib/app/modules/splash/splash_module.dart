@@ -12,11 +12,11 @@ class SplashModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute,
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute,
             child: (_, args) => SplashPage(),
             transition: TransitionType.fadeIn),
-        Router('/home',
+    ModularRouter('/home',
             module: HomeModule(), transition: TransitionType.fadeIn),
       ];
 

@@ -12,8 +12,8 @@ class CategoryModule extends WidgetModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => CategoryPage()),
+  List<ModularRouter> get routers => [
+    ModularRouter(Modular.initialRoute, child: (_, args) => CategoryPage()),
       ];
 
   static Inject get to => Inject<CategoryModule>.of();

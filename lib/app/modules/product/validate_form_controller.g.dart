@@ -248,13 +248,13 @@ mixin _$ValidateFormController on _ValidateFormController, Store {
       Atom(name: '_ValidateFormController.productDateBuy');
 
   @override
-  DateTime get productDateBuy {
+  String get productDateBuy {
     _$productDateBuyAtom.reportRead();
     return super.productDateBuy;
   }
 
   @override
-  set productDateBuy(DateTime value) {
+  set productDateBuy(String value) {
     _$productDateBuyAtom.reportWrite(value, super.productDateBuy, () {
       super.productDateBuy = value;
     });
@@ -407,11 +407,11 @@ mixin _$ValidateFormController on _ValidateFormController, Store {
       ActionController(name: '_ValidateFormController');
 
   @override
-  void setName(dynamic value) {
+  void setNameProduct(dynamic value) {
     final _$actionInfo = _$_ValidateFormControllerActionController.startAction(
-        name: '_ValidateFormController.setName');
+        name: '_ValidateFormController.setNameProduct');
     try {
-      return super.setName(value);
+      return super.setNameProduct(value);
     } finally {
       _$_ValidateFormControllerActionController.endAction(_$actionInfo);
     }

@@ -45,36 +45,37 @@ mixin _$CategoryController on _CategoryControllerBase, Store {
               name: '_CategoryControllerBase.editPressed'))
           .value;
 
-  final _$titleControllerAtom =
-      Atom(name: '_CategoryControllerBase.titleController');
+  final _$titleCategoryControllerAtom =
+      Atom(name: '_CategoryControllerBase.titleCategoryController');
 
   @override
-  TextEditingController get titleController {
-    _$titleControllerAtom.reportRead();
-    return super.titleController;
+  TextEditingController get titleCategoryController {
+    _$titleCategoryControllerAtom.reportRead();
+    return super.titleCategoryController;
   }
 
   @override
-  set titleController(TextEditingController value) {
-    _$titleControllerAtom.reportWrite(value, super.titleController, () {
-      super.titleController = value;
+  set titleCategoryController(TextEditingController value) {
+    _$titleCategoryControllerAtom
+        .reportWrite(value, super.titleCategoryController, () {
+      super.titleCategoryController = value;
     });
   }
 
-  final _$descriptionControllerAtom =
-      Atom(name: '_CategoryControllerBase.descriptionController');
+  final _$descriptionCategoryControllerAtom =
+      Atom(name: '_CategoryControllerBase.descriptionCategoryController');
 
   @override
-  TextEditingController get descriptionController {
-    _$descriptionControllerAtom.reportRead();
-    return super.descriptionController;
+  TextEditingController get descriptionCategoryController {
+    _$descriptionCategoryControllerAtom.reportRead();
+    return super.descriptionCategoryController;
   }
 
   @override
-  set descriptionController(TextEditingController value) {
-    _$descriptionControllerAtom.reportWrite(value, super.descriptionController,
-        () {
-      super.descriptionController = value;
+  set descriptionCategoryController(TextEditingController value) {
+    _$descriptionCategoryControllerAtom
+        .reportWrite(value, super.descriptionCategoryController, () {
+      super.descriptionCategoryController = value;
     });
   }
 
@@ -230,6 +231,22 @@ mixin _$CategoryController on _CategoryControllerBase, Store {
     });
   }
 
+  final _$categoryObjectAtom =
+      Atom(name: '_CategoryControllerBase.categoryObject');
+
+  @override
+  Category get categoryObject {
+    _$categoryObjectAtom.reportRead();
+    return super.categoryObject;
+  }
+
+  @override
+  set categoryObject(Category value) {
+    _$categoryObjectAtom.reportWrite(value, super.categoryObject, () {
+      super.categoryObject = value;
+    });
+  }
+
   final _$getFirstPageAsyncAction =
       AsyncAction('_CategoryControllerBase.getFirstPage');
 
@@ -349,8 +366,8 @@ mixin _$CategoryController on _CategoryControllerBase, Store {
   @override
   String toString() {
     return '''
-titleController: ${titleController},
-descriptionController: ${descriptionController},
+titleCategoryController: ${titleCategoryController},
+descriptionCategoryController: ${descriptionCategoryController},
 isLoading: ${isLoading},
 loading: ${loading},
 isExpanded: ${isExpanded},
@@ -361,6 +378,7 @@ editID: ${editID},
 error: ${error},
 categoryName: ${categoryName},
 categoryDescription: ${categoryDescription},
+categoryObject: ${categoryObject},
 categoryNameValid: ${categoryNameValid},
 categoryDescriptionValid: ${categoryDescriptionValid},
 isFormValid: ${isFormValid},

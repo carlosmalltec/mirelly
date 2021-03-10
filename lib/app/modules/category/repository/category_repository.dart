@@ -32,8 +32,26 @@ class CategoryRepository {
     }
   }
 
+  Future<List<Category>> listCategory() async {
+    final category =
+        await QueryBuilder(ParseObject(TableKeys.categoryTableName));
+    category.whereEqualTo(TableKeys.categoryStatus, CategoryStatus.ATIVO.index);
+    final List<Category> model = List<Category>();
+    final response = await category.query();
+
+    if (response.success) {
+      for (final object in response.result) {
+        model.add(mapParseToUser(object));
+      }
+      return model;
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
   Future<dynamic> excluir(Category cat) async {
-    final categoryDelete = ParseObject(TableKeys.categoryTableName)..objectId = cat.id;
+    final categoryDelete = ParseObject(TableKeys.categoryTableName)
+      ..objectId = cat.id;
     final delete = await categoryDelete.delete();
 
     if (delete.success) {
@@ -44,7 +62,8 @@ class CategoryRepository {
   }
 
   Future<Category> update(String objectId, Category cat) async {
-    final categoryUp = ParseObject(TableKeys.categoryTableName)..objectId = objectId;
+    final categoryUp = ParseObject(TableKeys.categoryTableName)
+      ..objectId = objectId;
     categoryUp.set<String>(TableKeys.categoryTitle, cat.title);
     categoryUp.set<String>(TableKeys.categoryDescription, cat.description);
     categoryUp.set<int>(TableKeys.categoryStatus, cat.status.index);
